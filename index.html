@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mày phải thíc tao</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4">
+    <div id="auto" class="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4 w-full">
+
+        <img id="emojiImg" src="https://media.tenor.com/27St-2ZmvscAAAAm/bugcat-capoo.webp" alt="Emoji" class="w-32 h-32 transition-all duration-300">
+
+        <h2>Bạn có thích toii khôngggg</h2>
+        <div class="w-full space-x-4 flex justify-center items-center">
+            <button id="yesBtn" class="bg-pink-400 text-white  px-6 py-2 text-lg rounded-lg transition-all duration-300">Cóooo</button>
+            <button id="noBtn" class="bg-blue-500 text-white px-6 py-2 max-h-12 max-w-18 text-lg rounded-lg transition-all duration-300">Không</button>
+        </div>
+
+    </div>
+    <div id="yesDiv" class="hidden flex-col items-center justify-center space-y-4">
+        <img src="https://media.tenor.com/te4CvgdLKw8AAAAm/cat-bugcat.webp" alt="Emoji" class="w-40 h-40 transition-all duration-300">
+        <h1 class=" text-2xl">Yêu bạn lắm luônnnn á</h1>
+
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const emojiImg = document.getElementById('emojiImg');
+
+        const autoDiv = document.getElementById('auto');
+        const yesDiv = document.getElementById('yesDiv');
+
+
+        const noTexts = ['Bạn nghiêm túc chứ...', 'Cho 3s nghĩ lại', 'Không được chọn cái này', 'Không thể nào', 'Không được đâu', 'Không được chọn cái này nữa'];
+        const imgSources = [
+            '',
+            'https://media.tenor.com/PTiUO4xaF5kAAAAm/bugcat-capoo.webp',
+            'https://media.tenor.com/Hk9TyMrGYuEAAAAm/bugcat-capoo.webp',
+            'https://media.tenor.com/KhSMZE7Ha5MAAAAm/capoo.webp',
+            'https://media.tenor.com/ZcIfYghnOWgAAAAm/bugcat-capoo.webp',
+            'https://media.tenor.com/ML8iuahL1YAAAAAm/manhphongg.webp'
+        ];
+        let clickCount = 0;
+
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+
+            if (clickCount <= noTexts.length) {
+                noBtn.textContent = noTexts[clickCount - 1];
+            }
+
+            if (clickCount < imgSources.length) {
+                console.log(emojiImg.src, imgSources[clickCount]);
+
+                emojiImg.src = imgSources[clickCount];
+            }
+
+            if (clickCount < 6) {
+                const currentWidth = yesBtn.offsetWidth;
+                yesBtn.style.width = (currentWidth + 190) + 'px';
+                yesBtn.style.height = (currentWidth + 20) + 'px';
+
+                yesBtn.style.fontSize = (parseInt(window.getComputedStyle(yesBtn).fontSize) + 20) + 'px';
+            } else {
+                yesBtn.style.width = '100%';
+                noBtn.className = 'hidden';
+            }
+        });
+        yesBtn.addEventListener('click', () => {
+            autoDiv.className = 'hidden';
+            yesDiv.classList.remove('hidden');
+
+            yesDiv.className = 'flex flex-col items-center justify-center space-y-4';
+        });
+    </script>
+
+</body>
+
+</html>
