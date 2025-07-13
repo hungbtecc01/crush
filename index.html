@@ -1,79 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Mày phải thíc tao</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>happy birthday</title>
+    <style>
+        :root {
+            --primary-color: #ff00ff;
+            --secondary-color: #00ffff;
+            --text-color: #fff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: var(--text-color);
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 2s ease;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+
+        body.sad-theme {
+            background-color: #1a1a2e;
+        }
+
+        .sad-theme .wishes {
+            color: #a5a5a5;
+        }
+
+        .sad-theme .star {
+            animation: slowTwinkle 4s infinite;
+        }
+
+        @keyframes slowTwinkle {
+
+            0%,
+            100% {
+                opacity: 0.1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .start-btn,
+        .choice-btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .start-btn {
+            animation: glow 2s infinite;
+        }
+
+        .choice-btn {
+            margin: 10px;
+            font-size: 18px;
+            opacity: 0;
+        }
+
+        .start-btn:hover,
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+            }
+
+            100% {
+                box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .wishes {
+            text-align: center;
+            font-size: 84px;
+            /* Lớn hơn */
+            font-weight: bolder;
+            margin: 20px;
+            opacity: 0;
+            font-family: "Poppins", sans-serif;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: fadeInText 1s ease-out forwards;
+            /* Tăng thời gian hiệu ứng */
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color),
+                0 0 30px var(--primary-color);
+        }
+
+        .message-container {
+            max-width: 90%;
+            width: 800px;
+            text-align: center;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(var(--random-x));
+                opacity: 0;
+            }
+        }
+
+        .mute-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .mute-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
-<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4">
-    <div id="auto" class="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4 w-full">
+<body id="body" class="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4"
+    onclick="fullScreen()">
 
-        <img id="emojiImg" src="https://media.tenor.com/27St-2ZmvscAAAAm/bugcat-capoo.webp" alt="Emoji" class="w-32 h-32 transition-all duration-300">
-
-        <h2>Bạn có thích toii khôngggg</h2>
-        <div class="w-full space-x-4 flex justify-center items-center">
-            <button id="yesBtn" class="bg-pink-400 text-white  px-6 py-2 text-lg rounded-lg transition-all duration-300">Cóooo</button>
-            <button id="noBtn" class="bg-blue-500 text-white px-6 py-2 max-h-12 max-w-18 text-lg rounded-lg transition-all duration-300">Không</button>
+    <div class="stars"></div>
+    <button class="start-btn" id="startBtn">Click to Start ✨</button>
+    <div id="wishesContainer" class="hidden">
+        <div id="wishes" class="wishes"></div>
+        <div id="choices" class="hidden">
         </div>
-
     </div>
-    <div id="yesDiv" class="hidden flex-col items-center justify-center space-y-4">
-        <img src="https://media.tenor.com/te4CvgdLKw8AAAAm/cat-bugcat.webp" alt="Emoji" class="w-40 h-40 transition-all duration-300">
-        <h1 class=" text-2xl">Yêu bạn lắm luônnnn á</h1>
 
-    </div>
+    <audio id="bgMusic"
+        src="https://hindi.djpunjab.app/load/MLNyCd86wmLEJPdPIiSd8Q==/Badhai%20Ho%20Badhai%20Janm%20Din%20Ki.mp3"
+        loop></audio>
+    <audio id="sisterMusic" src="https://s320.djpunjab.is/data/48/55179/304011/Dil%20De%20Tukde%20-%20A%20Kay.mp3"
+        loop></audio>
+    <audio id="bestFriendMusic"
+        src="https://hindi.djpunjab.app/load/cPnz7r4F4iEtdhKQGvl6Jw==/Yaara%20Teri%20Yaari%20Happy.mp3" loop></audio>
+
+    <button id="muteButton" class="mute-btn">🔊</button>
 
     <script>
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const emojiImg = document.getElementById('emojiImg');
-
-        const autoDiv = document.getElementById('auto');
-        const yesDiv = document.getElementById('yesDiv');
-
-
-        const noTexts = ['Bạn nghiêm túc chứ...', 'Cho 3s nghĩ lại', 'Không được chọn cái này', 'Không thể nào', 'Không được đâu', 'Không được chọn cái này nữa'];
-        const imgSources = [
-            '',
-            'https://media.tenor.com/PTiUO4xaF5kAAAAm/bugcat-capoo.webp',
-            'https://media.tenor.com/Hk9TyMrGYuEAAAAm/bugcat-capoo.webp',
-            'https://media.tenor.com/KhSMZE7Ha5MAAAAm/capoo.webp',
-            'https://media.tenor.com/ZcIfYghnOWgAAAAm/bugcat-capoo.webp',
-            'https://media.tenor.com/ML8iuahL1YAAAAAm/manhphongg.webp'
+        const wishes = [
+            "3",
+            "2",
+            "1",
+            "🎉 Happy Birthday 🎉",
+            "💖 Phạm Thu Trang 💖",
+            "🎂 27.6.2000 🎂",
+            "✨ Happy 25+ ✨",
+            "💫💫💫 Best thing will come to you 💫💫💫"
         ];
-        let clickCount = 0;
 
-        noBtn.addEventListener('click', () => {
-            clickCount++;
+        function createStars() {
+            const starsContainer = document.createElement("div");
+            starsContainer.className = "stars";
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty("--duration", `${Math.random() * 3 + 1}s`);
+                starsContainer.appendChild(star);
+            }
+            document.body.appendChild(starsContainer);
+        }
 
-            if (clickCount <= noTexts.length) {
-                noBtn.textContent = noTexts[clickCount - 1];
+        function createEmoji() {
+            const emojis = ["💖", "⭐", "✨", "🎉", "🎂", "🎈"];
+            const count = 2; // tạo 3 emoji mỗi lần
+            for (let i = 0; i < count; i++) {
+                const emoji = document.createElement("div");
+                emoji.className = "emoji";
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * window.innerWidth + "px";
+                emoji.style.top = "-50px";
+                document.body.appendChild(emoji);
+                const animation = emoji.animate(
+                    [
+                        { transform: "translateY(0) rotate(0deg)" },
+                        { transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)` }
+                    ],
+                    {
+                        duration: 3000,
+                        easing: "linear"
+                    }
+                );
+                animation.onfinish = () => emoji.remove();
+            }
+        }
+        function stopAllMusic() {
+            const audios = ["bgMusic", "sisterMusic", "bestFriendMusic"];
+            audios.forEach((id) => {
+                const audio = document.getElementById(id);
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        }
+
+        function playAudio(audioId) {
+            const audio = document.getElementById(audioId);
+            if (audio) {
+                audio.volume = 0.5;
+                audio.play().catch((err) => console.log("Audio play failed:", err));
+            }
+        }
+        let emojiInterval;
+        async function typeWriter(text) {
+            const wishesElement = document.getElementById("wishes");
+
+            // Set fade out duration (1s for "3", "2", "1", otherwise 0.5s)
+            const fadeOutDuration = (text === "3" || text === "2" || text === "1") ? "0.2s" : "0.5s";
+            wishesElement.style.animation = `fadeOut ${fadeOutDuration} forwards`;
+            await new Promise(resolve => setTimeout(resolve, parseFloat(fadeOutDuration) * 1000));
+
+            // Set new text and apply font size for "3", "2", "1"
+            wishesElement.innerHTML = text;
+            if (text === "3" || text === "2" || text === "1") {
+                wishesElement.style.fontSize = "228px"; // Keep the 128px font size as requested previously
+            } else if (text === "💫💫💫 Best thing will come to you 💫💫💫") {
+                wishesElement.style.fontSize = "64px"; // Set to 84px for this message
+            } 
+            else {
+                wishesElement.style.fontSize = "94px"; // Revert to original font size for other texts
             }
 
-            if (clickCount < imgSources.length) {
-                console.log(emojiImg.src, imgSources[clickCount]);
+            // Set fade in duration (1s for "3", "2", "1", otherwise 0.6s)
+            const fadeInDuration = (text === "3" || text === "2" || text === "1") ? "1s" : "0.6s";
+            wishesElement.style.animation = `fadeIn ${fadeInDuration} ease-out forwards`;
+            wishesElement.className = "wishes neon-text";
 
-                emojiImg.src = imgSources[clickCount];
-            }
-
-            if (clickCount < 6) {
-                const currentWidth = yesBtn.offsetWidth;
-                yesBtn.style.width = (currentWidth + 190) + 'px';
-                yesBtn.style.height = (currentWidth + 20) + 'px';
-
-                yesBtn.style.fontSize = (parseInt(window.getComputedStyle(yesBtn).fontSize) + 20) + 'px';
+            // Wait before next message
+            await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+        let isMuted = false;
+        const muteButton = document.getElementById("muteButton");
+        muteButton.addEventListener("click", () => {
+            const audios = ["bgMusic", "sisterMusic", "bestFriendMusic"];
+            isMuted = !isMuted;
+            audios.forEach((id) => {
+                const audio = document.getElementById(id);
+                if (audio) {
+                    audio.muted = isMuted;
+                }
+            });
+            // Update button text
+            muteButton.textContent = isMuted ? "🔇" : "🔊";
+        });
+        async function makeChoice(choice) {
+            clearInterval(emojiInterval);
+            const wishesElement = document.getElementById("wishes");
+            document.getElementById("choices").style.display = "none";
+            stopAllMusic();
+            if (choice === "sister") {
+                document.body.classList.add("sad-theme");
+                const sisterAudio = document.getElementById("sisterMusic");
+                sisterAudio.muted = isMuted;
+                try {
+                    const playPromise = sisterAudio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((error) => {
+                            console.log("Audio play failed:", error);
+                        });
+                    }
+                } catch (err) {
+                    console.log("Audio play failed:", err);
+                }
+                for (let message of sisterChat) {
+                    await typeWriter(message);
+                }
+                document.getElementById("choices").innerHTML = `
+                    <button class="choice-btn" onclick="makeChoice('bestfriend')">Best Friend</button>
+                `;
+                document.getElementById("choices").style.display = "block";
+                document.querySelector(".choice-btn").style.opacity = 1;
             } else {
-                yesBtn.style.width = '100%';
-                noBtn.className = 'hidden';
+                document.body.classList.remove("sad-theme");
+                const bestFriendAudio = document.getElementById("bestFriendMusic");
+                bestFriendAudio.muted = isMuted;
+                try {
+                    const playPromise = bestFriendAudio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((error) => {
+                            console.log("Audio play failed:", error);
+                        });
+                    }
+                } catch (err) {
+                    console.log("Audio play failed:", err);
+                }
+                emojiInterval = setInterval(createEmoji, 300);
+                for (let message of bestFriendMessages) {
+                    await typeWriter(message);
+                }
+                setTimeout(() => {
+                    setTimeout(() => {
+                        window.open(
+                            "https://www.instagram.com/direct/t/harshpreet_singh_honey",
+                            "_blank"
+                        );
+                        wishesElement.innerHTML =
+                            "Check your Instagram, Shalini! 📱✨<br>💖I am there💖";
+                    }, 1000);
+                }, 2000);
             }
+        }
+        document.getElementById("startBtn").addEventListener("click", async () => {
+            document.getElementById("startBtn").style.display = "none";
+            document.getElementById("wishesContainer").classList.remove("hidden");
+            const bgAudio = document.getElementById("bgMusic");
+            bgAudio.muted = isMuted;
+            try {
+                const playPromise = bgAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch((error) => {
+                        console.log("Audio play failed:", error);
+                    });
+                }
+            } catch (err) {
+                console.log("Audio play failed:", err);
+            }
+            emojiInterval = setInterval(createEmoji, 300);
+            for (let wish of wishes) {
+                await typeWriter(wish);
+            }
+            document.getElementById("choices").classList.remove("hidden");
+            document.querySelectorAll(".choice-btn").forEach((btn) => {
+                btn.style.opacity = 1;
+            });
         });
-        yesBtn.addEventListener('click', () => {
-            autoDiv.className = 'hidden';
-            yesDiv.classList.remove('hidden');
+        document.addEventListener("click", async function initAudio() {
+            const audios = ["bgMusic", "sisterMusic", "bestFriendMusic"];
+            for (let id of audios) {
+                const audio = document.getElementById(id);
+                try {
+                    await audio.play();
+                    audio.pause();
+                    audio.currentTime = 0;
+                } catch (err) {
+                    console.log("Audio initialization failed:", err);
+                }
+            }
+            document.removeEventListener("click", initAudio);
+        });
 
-            yesDiv.className = 'flex flex-col items-center justify-center space-y-4';
-        });
+        createStars();
+        let honey = document.getElementById("body");
+        function fullScreen() {
+            honey.requestFullscreen();
+        }
+
     </script>
 
 </body>
